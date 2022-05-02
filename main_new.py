@@ -5,7 +5,7 @@ import requests
 
 import globalvar
 import cv2
-import time
+import time 
 import torch
 import argparse
 import numpy as np
