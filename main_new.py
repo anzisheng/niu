@@ -1,3 +1,29 @@
+"""
+Result for COCO (17 body parts):                 Result for COCO (18 body parts)
+
+    {0,  "Nose"},               0                 {0,  "Nose"},             T
+    {1,  "LEye"},               15                {1,  "Neck"},
+    {2,  "REye"},               14                {2,  "RShoulder"}
+    {3,  "LEar"},               17                {3,  "RElbow"}
+    {4,  "REar"},               16                {4,  "RWrist"}
+    {5,  "LShoulder"},          5                 {5,  "LShoulder"}
+    {6,  "RShoulder"},          2                 {6,  "LElbow"}
+    {7,  "LElbow"},             6                 {7,  "LWrist"}
+    {8,  "RElbow"},             3                 {8,  "RHip"}
+    {9,  "LWrist"},             7                 {9,  "RKnee"}
+    {10, "RWrist"},             4                 {10, "RAnkle"}
+    {11, "LHip"},               11                {11, "LHip"}
+    {12, "RHip"},               8                 {12, "LKnee"}
+    {13, "LKnee"},              12                {13, "LAnkle"}
+    {14, "Rknee"},              9                 {14, "REye"}
+    {15, "LAnkle"},             13                {15, "LEye"}
+    {16, "RAnkle"},             10                {16, "REar"}
+                                                  {17, "LEar"}
+
+#差别在于Neck so add: {17, "Neck"}
+"""
+
+
 import os
 from datetime import datetime
 import json

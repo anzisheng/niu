@@ -314,7 +314,7 @@ def draw_single_action(frame, pts, action_name,index,joint_format='coco'):
 
 ########################################
     part_line = {}
-    pts = np.concatenate((pts, np.expand_dims((pts[1, :] + pts[2, :]) / 2, 0)), axis=0)
+    pts = np.concatenate((pts, np.expand_dims((pts[1, :] + pts[2, :]) / 2, 0)), axis=0) #add neck
     for n in range(pts.shape[0]):
         if pts[n, 2] <= 0.05:
             continue
@@ -330,6 +330,29 @@ def draw_single_action(frame, pts, action_name,index,joint_format='coco'):
     H, W, c = frame.shape
     scale_factor = 2 * H / 1080
     #scale_factor = 1
+
+    self_link = [(i, i) for i in range(18)]
+    neighbor_link = [
+        (10, 8),    #(4, 3) RWrist， RElbow
+        (8, 6),     #(3, 2) RElbow， RShoulder
+        (9, 7),     #(7, 6),LWrist  LElbow
+        (7, 5),     #(6, 5) LElbow, LShoulder
+        (15, 13),   #(13, 12), LAnkle, LKnee
+        (13, 11),   #(12, 11), LKnee,  LHip
+        (16, 14),   #(10, 9), RAnkle, RKnee
+        (14, 12),   #(9, 8), RKnee, RHip
+        (11, 5),    #(11, 5),LHip, LShoulder
+        (12, 6),    #(8, 2),RHip, RShoulder
+        (5, 17),    #(5, 1),LShoulder, Neck
+        (6, 17),    #(2, 1),RShoulder, Neck
+        (0, 17),    #(0, 1),Nose, Neck
+        (1, 0),     #(15, 0),LEye Nose
+        (14, 0),    #(14, 0), REye, Nose
+        (3, 1),     #(17, 15),LEar，LEye
+        (16, 14)    #(16, 14) REar，REye
+    ]
+    l_pair = self_link + neighbor_link
+
     for i, (start_p, end_p) in enumerate(l_pair):
         if start_p in part_line and end_p in part_line:
             start_xy = part_line[start_p]
@@ -351,7 +374,7 @@ def draw_single_action(frame, pts, action_name,index,joint_format='coco'):
 
 
             #cv2.line(frame, start_xy, end_xy, line_color[i], int(1*(pts[start_p, 2] + pts[end_p, 2]) + 1))
-            cv2.line(frame, start_xy, end_xy, (255,255,255), int(1 * (pts[start_p, 2] + pts[end_p, 2]) + 1))
+            #cv2.line(frame, start_xy, end_xy, (255,255,255), int(1 * (pts[start_p, 2] + pts[end_p, 2]) + 1))
     return frame
 
 def draw_single_color(frame, pts, joint_format='coco'):
