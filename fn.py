@@ -314,15 +314,21 @@ def draw_single_action(frame, pts, action_name,index,joint_format='coco'):
 
 ########################################
     part_line = {}
-    pts = np.concatenate((pts, np.expand_dims((pts[1, :] + pts[2, :]) / 2, 0)), axis=0) #add neck
+    pts = np.concatenate((pts, np.expand_dims((pts[5, :] + pts[6, :]) / 2, 0)), axis=0) #add neck, slow down slightly
+    #pts[:, 0] = pts[:,0] / frame.shape[0]
+    #pts[:, 1] = pts[:,1] / frame.shape[1]
+    #centering
+    #pts[0:2] = pts[0:2] - 0.5
+
+
     for n in range(pts.shape[0]):
         if pts[n, 2] <= 0.05:
             continue
-        cor_x, cor_y = int(pts[n, 0]), int(pts[n, 1])
+        cor_x, cor_y = (pts[n, 0]), (pts[n, 1])
         part_line[n] = (cor_x, cor_y)
 
-        cv2.circle(frame, (cor_x, cor_y), 3, p_color[n], -1)
-        cv2.circle(frame, (cor_x, cor_y), 3,(255,255,255), 1)
+        #cv2.circle(frame, (cor_x, cor_y), 3, p_color[n], -1)
+        #cv2.circle(frame, (cor_x, cor_y), 3,(255,255,255), 1)
 
         #cv2.putText(frame, str(n), (cor_x, cor_y))
         #frame = cv2.putText(frame, str(n), (cor_x, cor_y), cv2.FONT_HERSHEY_DUPLEX, 0.3, (255, 0, 0), 1)
@@ -347,9 +353,9 @@ def draw_single_action(frame, pts, action_name,index,joint_format='coco'):
         (6, 17),    #(2, 1),RShoulder, Neck
         (0, 17),    #(0, 1),Nose, Neck
         (1, 0),     #(15, 0),LEye Nose
-        (14, 0),    #(14, 0), REye, Nose
+        (2, 0),    #(14, 0), REye, Nose
         (3, 1),     #(17, 15),LEar，LEye
-        (16, 14)    #(16, 14) REar，REye
+        (4, 2)    #(16, 14) REar，REye
     ]
     l_pair = self_link + neighbor_link
 
@@ -366,11 +372,11 @@ def draw_single_action(frame, pts, action_name,index,joint_format='coco'):
             if xi + yi == 0 or xj + yj == 0:
                     continue
             else:
-                xi = int((xi + 0.5) * W)
-                yi = int((yi + 0.5) * H)
-                xj = int((xj + 0.5) * W)
-                yj = int((yj + 0.5) * H)
-            cv2.line(frame, (xi, yi), (xj, yj), (255, 255, 255), int(np.ceil( 6 * scale_factor)))
+                xi = int((xi + 0.5))# * W)
+                yi = int((yi + 0.5))# * H)
+                xj = int((xj + 0.5))# * W)
+                yj = int((yj + 0.5)) #* H)
+            cv2.line(frame, (xi, yi), (xj, yj), (255, 255, 255), int(np.ceil( 6 * scale_factor *0.3)))
 
 
             #cv2.line(frame, start_xy, end_xy, line_color[i], int(1*(pts[start_p, 2] + pts[end_p, 2]) + 1))
